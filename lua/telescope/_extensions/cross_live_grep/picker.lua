@@ -32,7 +32,7 @@ _pickers.cross_live_grep = function(opts)
 
   _pickers.picker.new(opts, {
     prompt_title = "Cross Live Grep",
-    results_title = _pickers.to_relative(opts.path, opts.cwd),
+    results_title = _pickers.utils.to_relative(opts.path, opts.cwd),
     previewer = _pickers.conf.file_previewer(opts),
     sorter = _pickers.conf.file_sorter(opts),
   }):find()
