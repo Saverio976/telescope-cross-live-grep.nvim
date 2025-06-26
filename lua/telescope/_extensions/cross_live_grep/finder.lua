@@ -20,6 +20,8 @@ _finders.cross_live_grep = function(opts)
   local job_started = false
 
   return setmetatable({
+    close = function()
+    end,
     results = results,
     entry_maker = entry_maker,
   }, {
