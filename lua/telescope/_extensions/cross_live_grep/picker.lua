@@ -28,7 +28,7 @@ _pickers.cross_live_grep = function(opts)
   opts.cwd = opts.cwd and _pickers.to_absolute_path_dir(opts.cwd) or cwd
   opts.path = opts.path and _pickers.to_absolute_path_dir(opts.path) or opts.cwd
 
-  opts.finder = _pickers.finder
+  opts.finder = _pickers.finder(opts)
 
   _pickers.picker.new(opts, {
     prompt_title = "Cross Live Grep",
