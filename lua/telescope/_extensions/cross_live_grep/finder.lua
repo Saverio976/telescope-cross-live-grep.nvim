@@ -10,7 +10,7 @@ _finders.cross_live_grep = function(opts)
     _finders.has_scan = true
   end
   if not _finders.has_finder then
-    _finders.finder = require('telescope.finder')
+    _finders.finder = require('telescope.finders')
     _finders.has_finder = true
   end
   if not _finders.has_utils then
