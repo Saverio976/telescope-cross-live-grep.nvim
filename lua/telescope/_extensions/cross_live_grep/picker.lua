@@ -35,6 +35,9 @@ _pickers.cross_live_grep = function(opts)
     results_title = _pickers.utils.to_relative(opts.path, opts.cwd),
     previewer = _pickers.conf.file_previewer(opts),
     sorter = _pickers.conf.file_sorter(opts),
+    attach_mappings = function(_, _)
+      return true
+    end,
   }):find()
 end
 
