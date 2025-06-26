@@ -1,6 +1,6 @@
 local _finders = {
-  has_scan = false
-  has_async = false
+  has_scan = false,
+  has_async = false,
 }
 
 _finders.cross_live_grep = function(opts)
