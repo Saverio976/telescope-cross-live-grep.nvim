@@ -43,3 +43,5 @@ _finders.cross_live_grep = function(opts)
     end
   })
 end
+
+return _finders.cross_live_grep
