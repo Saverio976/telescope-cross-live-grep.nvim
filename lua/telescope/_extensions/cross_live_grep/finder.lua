@@ -1,6 +1,7 @@
 local _finders = {
   has_scan = false,
-  has_async = false,
+  has_finder = false,
+  has_utils = false,
 }
 
 _finders.cross_live_grep = function(opts)
@@ -8,41 +9,46 @@ _finders.cross_live_grep = function(opts)
     _finders.scan = require('plenary.scandir')
     _finders.has_scan = true
   end
-  if not _finders.has_async then
-    _finders.async = require('plenary.async')
-    _finders.has_async = true
+  if not _finders.has_finder then
+    _finders.finder = require('telescope.finder')
+    _finders.has_finder = true
+  end
+  if not _finders.has_utils then
+    _finders.utils = require('telescope._extensions.cross_live_grep.utils')
+    _finders.has_utils = true
   end
 
   opts = opts or {}
+  opts.pattern = opts.pattern or ''
 
-  local job
   local results = {}
-  local job_started = false
+  if opts.pattern ~= '' then
+    local results_tmp = _finders.scan.scan_dir(opts.path, {
+      hidden = true,
+      respect_gitignore = true,
+    })
 
-  return setmetatable({
-    close = function()
-    end,
-    results = results,
-    entry_maker = entry_maker,
-  }, {
-    __call = function(_, _, process_result, process_complete)
-      if not job_started then
-        scan.scan_dir_async(opts.path, {
-          hidden = true,
-          respect_gitignore = true,
-          search_pattern = function(e)
-            return true
-          end,
-          on_insert = function(e)
-            process_result(e) -- TODO:
-          end,
-          on_exit = function(results)
-            process_complete()
-          end,
-        })
-        job_started = true
+    for _, cur_path in ipairs(results_tmp) do
+      local local_result = _finders.utils.grep_file(cur_path, )
+      for _, cur_match in ipairs(local_result) do
+        table.extend(results, cur_match)
       end
     end
+  end
+
+  return _finders.finder.new_table({
+    results = results,
+    entry_maker = function(entry)
+      return {
+        value = entry,
+        display = function(tbl)
+          return _finders.to_relative(tbl.path, opts.cwd) .. ':' .. tbl.line_number .. ':' .. tbl.column_number
+        end,
+        path = entry[1],
+        line_number = entry[2],
+        column_number = entry[3],
+      }
+    end,
   })
 end
 
