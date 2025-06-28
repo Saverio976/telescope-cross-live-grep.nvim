@@ -12,8 +12,10 @@ _finders.clg = function(opts)
     _finders.scan = require('plenary.scandir')
     _finders.has_scan = true
   end
-
-  local cwd = vim.loop.cwd()
+  if not _finders.has_utils then
+    _finders.utils = require('telescope._extensions.cross_live_grep.utils')
+    _finders.has_utils = true
+  end
 
   local callable = function(_, prompt, process_result, process_complete)
     if prompt == '' then
@@ -22,7 +24,7 @@ _finders.clg = function(opts)
 
 
     local display = function(entry)
-      return entry.path .. ':' .. entry.lnum
+      return _finders.utils.to_relative(entry.path, opts.cwd) .. ':' .. entry.lnum
     end
 
     local on_insert = function(entry)
