@@ -20,12 +20,17 @@ _finders.clg = function(opts)
       process_complete()
     end
 
+
+    local display = function(entry)
+      return entry.path .. ':' .. entry.lnum
+    end
+
     local index = 0
 
     local on_insert = function(entry)
       index = index + 1
       process_result({
-        display = entry
+        display = display,
         path = entry,
         lnum = 1,
         index = index
