@@ -38,9 +38,8 @@ _pickers.cross_live_grep = function(opts)
     attach_mappings = function(_, _)
       return true
     end,
+    push_cursor_on_edit = true,
   }):find()
 end
-
--- _pickers.cross_live_grep()
 
 return _pickers.cross_live_grep
