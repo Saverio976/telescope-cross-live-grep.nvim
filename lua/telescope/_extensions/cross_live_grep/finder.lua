@@ -28,12 +28,15 @@ _finders.clg = function(opts)
     end
 
     local on_insert = function(entry)
-      process_result({
-        display = display,
-        path = entry,
-        lnum = 1,
-        ordinal = entry,
-      })
+      local local_result = _finders.utils.grep_file(cur_path, opts.pattern)
+      for _, cur_match in ipairs(local_result) do
+        process_result({
+          display = display,
+          path = cur_match[1],
+          lnum = cur_match[2],
+          ordinal = entry,
+        })
+      end
       -- local local_result = _finders.utils.grep_file(cur_path, opts.pattern)
       -- for _, cur_match in ipairs(local_result) do
       --   table.extend(results, cur_match)

@@ -48,7 +48,7 @@ _utils.grep_file = function(src, pattern)
     limit = 0,
   })
   local results = {}
-  for i = 1, #found[1] do
+  for i = 1, #(found[1]) do
     table.insert({
       -- path, line_number, column_number
       src, found[1][i].i, found[2][i][1]
