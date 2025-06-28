@@ -15,7 +15,7 @@ _finders.clg = function(opts)
 
   local cwd = vim.loop.cwd()
 
-  local callable = function(_ prompt, process_result, process_complete)
+  local callable = function(_, prompt, process_result, process_complete)
     if prompt == '' then
       process_complete()
     end
