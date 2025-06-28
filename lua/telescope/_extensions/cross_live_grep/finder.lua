@@ -6,6 +6,9 @@ local _finders = {
 -- @param opts: options
 --   opts.cwd (string):    current workind directory
 --   opts.path (string):   path to search
+--   opts.exclude (list(str)):   pattern to exclude from results
+--   opts.respect_gitignore (bool): if true, don't look in gitignored files
+--   opts.hidden (bool): if true, look in hidden files (starting with '.' in their filename)
 _finders.cross_live_grep = function(opts)
   if not _finders.has_utils then
     _finders.utils = require('telescope._extensions.cross_live_grep.utils')
@@ -37,9 +40,9 @@ _finders.cross_live_grep = function(opts)
 
     _finders.utils.scan_dir({
       path = opts.path,
-      hidden = true,
-      respect_gitignore = true,
-      exclude = {[[\.git/*]]},
+      hidden = opts.hidden,
+      respect_gitignore = opts.respect_gitignore,
+      exclude = opts.exclude,
       on_insert = on_insert,
     })
 

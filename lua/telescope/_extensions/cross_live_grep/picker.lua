@@ -27,6 +27,15 @@ _pickers.cross_live_grep = function(opts)
   opts = opts or {}
   opts.cwd = opts.cwd and _pickers.to_absolute_path_dir(opts.cwd) or cwd
   opts.path = opts.path and _pickers.to_absolute_path_dir(opts.path) or opts.cwd
+  if opts.respect_gitignore == nil then
+    opts.respect_gitignore = true
+  end
+  if opts.hidden == nil then
+    opts.hidden = true
+  end
+  if opts.exclude == nil then
+    opts.exclude = {[[\.git/]], [[__pycache__/]], [[node_modules/]], [[dist/]], [[\.gradle/]], [[\.idea/]], [[\.vscode/]], [[\.dll]]}
+  end
 
   local clg_finder = _pickers.finder(opts)
 
