@@ -87,7 +87,7 @@ _utils.scan_dir = function(opts)
   end
 
   _finders.scan.scan_dir({
-    path = opts.path
+    path = opts.path,
     hidden = opts.hidden,
     respect_gitignore = opts.respect_gitignore,
     on_insert = on_insert,
