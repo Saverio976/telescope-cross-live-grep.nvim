@@ -34,12 +34,14 @@ _pickers.cross_live_grep = function(opts)
     prompt_title = "Cross Live Grep",
     finder = clg_finder,
     results_title = _pickers.utils.to_relative(opts.path, opts.cwd),
-    previewer = _pickers.conf.grep_previewer(opts),
+    previewer = _pickers.conf.qflist_previewer(opts),
     sorter = _pickers.conf.file_sorter(opts),
     attach_mappings = function(_, _)
       return true
     end,
   }):find()
 end
+
+-- _pickers.cross_live_grep()
 
 return _pickers.cross_live_grep

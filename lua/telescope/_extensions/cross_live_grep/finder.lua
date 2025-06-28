@@ -34,6 +34,8 @@ _finders.clg = function(opts)
           path = entry,
           lnum = cur_match[2],
           ordinal = entry,
+          start = cur_match[3],
+          finish = cur_match[4],
         })
       end
       -- local local_result = _finders.utils.grep_file(cur_path, opts.pattern)
