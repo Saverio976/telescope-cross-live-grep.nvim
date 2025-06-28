@@ -25,15 +25,12 @@ _finders.clg = function(opts)
       return entry.path .. ':' .. entry.lnum
     end
 
-    local index = 0
-
     local on_insert = function(entry)
-      index = index + 1
       process_result({
         display = display,
         path = entry,
         lnum = 1,
-        index = index
+        ordinal = entry,
       })
       -- local local_result = _finders.utils.grep_file(cur_path, opts.pattern)
       -- for _, cur_match in ipairs(local_result) do
