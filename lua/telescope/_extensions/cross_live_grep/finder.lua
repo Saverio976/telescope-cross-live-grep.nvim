@@ -25,6 +25,7 @@ _finders.clg = function(opts)
     local on_insert = function(entry)
       index = index + 1
       process_result({
+        display = entry
         path = entry,
         lnum = 1,
         index = index
