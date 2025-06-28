@@ -25,7 +25,7 @@ _utils.to_relative = function(src, cwd)
     _utils.has_path = true
   end
 
-  return _utils.path:new(src):make_relative(cwd) .. _utils.path.path.sep
+  return _utils.path:new(src):make_relative(cwd)
 end
 
 _utils.grep_file = function(src, pattern)
