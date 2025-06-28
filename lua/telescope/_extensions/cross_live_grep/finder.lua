@@ -22,13 +22,12 @@ _finders.clg = function(opts)
       process_complete()
     end
 
-
     local display = function(entry)
       return _finders.utils.to_relative(entry.path, opts.cwd) .. ':' .. entry.lnum
     end
 
     local on_insert = function(entry)
-      local local_result = _finders.utils.grep_file(entry, opts.pattern)
+      local local_result = _finders.utils.grep_file(entry, prompt)
       for _, cur_match in ipairs(local_result) do
         process_result({
           display = display,
