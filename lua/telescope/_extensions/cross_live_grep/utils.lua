@@ -2,8 +2,8 @@
 -- https://github.com/nvim-telescope/telescope-file-browser.nvim/blob/master/lua/telescope/_extensions/file_browser/utils.lua
 
 local _utils = {
-  has_path = false
-  has_scan = false
+  has_path = false,
+  has_scan = false,
 }
 
 _utils.to_absolute_path_dir = function(str)
