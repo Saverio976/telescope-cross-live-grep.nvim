@@ -31,7 +31,7 @@ _finders.clg = function(opts)
       --   vim.notify(cur_match[1])
       -- end
     end
-    _finders.scan_dir(opts.path, {
+    local data = _finders.scan.scan_dir(opts.path, {
       hidden = true,
       respect_gitignore = true,
       on_insert = on_insert,

@@ -28,12 +28,13 @@ _pickers.cross_live_grep = function(opts)
   opts.cwd = opts.cwd and _pickers.to_absolute_path_dir(opts.cwd) or cwd
   opts.path = opts.path and _pickers.to_absolute_path_dir(opts.path) or opts.cwd
 
-  opts.finder = _pickers.finder(opts)
+  local clg_finder = _pickers.finder(opts)
 
   _pickers.picker.new(opts, {
     prompt_title = "Cross Live Grep",
+    finder = clg_finder,
     results_title = _pickers.utils.to_relative(opts.path, opts.cwd),
-    previewer = _pickers.conf.file_previewer(opts),
+    previewer = _pickers.conf.grep_previewer(opts),
     sorter = _pickers.conf.file_sorter(opts),
     attach_mappings = function(_, _)
       return true
