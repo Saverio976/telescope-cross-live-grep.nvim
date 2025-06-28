@@ -36,6 +36,7 @@ _finders.cross_live_grep = function(opts)
     end
 
     _finders.utils.scan_dir({
+      path = opts.path,
       hidden = true,
       respect_gitignore = true,
       exclude = {[[\.git/*]]},

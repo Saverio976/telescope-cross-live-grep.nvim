@@ -62,6 +62,7 @@ _utils.grep_file = function(src, pattern)
 end
 
 -- @param opts: options
+--   opts.path (string):   path
 --   opts.hidden (bool):   if true, check for hidden files too
 --   opts.respect_gitignore (bool):   if true, only files not ignored by git
 --   opts.exclude (list(str)):    exclude this patterns
@@ -86,8 +87,8 @@ _utils.scan_dir = function(opts)
   end
 
   _finders.scan.scan_dir(opts.path, {
-    hidden = true,
-    respect_gitignore = true,
+    hidden = opts.hidden,
+    respect_gitignore = opts.respect_gitignore,
     on_insert = on_insert,
     search_pattern = search_pattern,
   })
