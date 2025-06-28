@@ -1,7 +1,10 @@
 -- from
 -- https://github.com/nvim-telescope/telescope-file-browser.nvim/blob/master/lua/telescope/_extensions/file_browser/utils.lua
 
-local _utils = {}
+local _utils = {
+  has_path = false
+  has_scan = false
+}
 
 _utils.to_absolute_path_dir = function(str)
   if not _utils.has_path then
@@ -56,6 +59,38 @@ _utils.grep_file = function(src, pattern)
   end
 
   return results
+end
+
+-- @param opts: options
+--   opts.hidden (bool):   if true, check for hidden files too
+--   opts.respect_gitignore (bool):   if true, only files not ignored by git
+--   opts.exclude (list(str)):    exclude this patterns
+--   opts.on_insert(entry):  called when a file matches
+_utils.scan_dir = function(opts)
+  if not _utils.has_scan then
+    _utils.scan = require('plenary.scandir')
+    _utils.has_scan = true
+  end
+
+  local search_pattern = function(entry)
+    for _, exclude_patt in ipairs(opts.exclude) do
+      if vim.fn.match(entry, exclude_patt) ~= -1 then
+        return false
+      end
+    end
+    return true
+  end
+
+  local on_insert = function(entry)
+    opts.on_insert(entry)
+  end
+
+  _finders.scan.scan_dir(opts.path, {
+    hidden = true,
+    respect_gitignore = true,
+    on_insert = on_insert,
+    search_pattern = search_pattern,
+  })
 end
 
 return _utils
