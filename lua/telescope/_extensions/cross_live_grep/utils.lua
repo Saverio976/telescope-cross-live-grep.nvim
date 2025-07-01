@@ -67,6 +67,7 @@ end
 --   opts.respect_gitignore (bool):   if true, only files not ignored by git
 --   opts.exclude (list(str)):    exclude this patterns
 --   opts.on_insert(entry):  called when a file matches
+--   opts.on_exit():  called at the end
 _utils.scan_dir = function(opts)
   if not _utils.has_scan then
     _utils.scan = require('plenary.scandir')
@@ -86,11 +87,16 @@ _utils.scan_dir = function(opts)
     opts.on_insert(entry)
   end
 
-  _utils.scan.scan_dir(opts.path, {
+  local on_exit = function(_)
+    opts.on_exit()
+  end
+
+  _utils.scan.scan_dir_async(opts.path, {
     hidden = opts.hidden,
     respect_gitignore = opts.respect_gitignore,
     on_insert = on_insert,
     search_pattern = search_pattern,
+    on_exit = on_exit,
   })
 end
 

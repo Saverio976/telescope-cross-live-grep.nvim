@@ -38,6 +38,10 @@ _finders.cross_live_grep = function(opts)
       end
     end
 
+    local on_exit = function()
+      process_complete()
+    end
+
     _finders.utils.scan_dir({
       path = opts.path,
       hidden = opts.hidden,
@@ -45,8 +49,6 @@ _finders.cross_live_grep = function(opts)
       exclude = opts.exclude,
       on_insert = on_insert,
     })
-
-    process_complete()
   end
 
   return setmetatable({
