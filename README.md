@@ -54,3 +54,4 @@ For now, no custom mapping is implemented. It use the default ones.
 
 - [nvim-telescope/telescope-file-browser.nvim](https://github.com/nvim-telescope/telescope-file-browser.nvim) inspiration for the code.
 - [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) inspiration from the default telescope live_grep.
+- [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim) for file / path manipulation
