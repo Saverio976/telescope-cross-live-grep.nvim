@@ -15,11 +15,16 @@ _finders.cross_live_grep = function(opts)
     _finders.has_utils = true
   end
 
+  local async_state = 0
+  local async_close = nil
+
   local callable = function(_, prompt, process_result, process_complete)
     if prompt == '' then
       process_complete()
       return
     end
+
+    async_state = 1
 
     local is_pattern_found = string.find(prompt, '/r/', 1, true)
     local is_pattern = false
@@ -33,8 +38,17 @@ _finders.cross_live_grep = function(opts)
     end
 
     local on_insert = function(entry)
+      if async_state == 0 then
+        return
+      end
       local callback_found = function(src, lnum, start, finish)
+        if async_state == 0 then
+          return
+        end
         vim.schedule(function()
+          if async_state == 0 then
+            return
+          end
           process_result({
             display = display,
             path = src,
@@ -49,10 +63,13 @@ _finders.cross_live_grep = function(opts)
     end
 
     local on_exit = function()
+      if async_state == 0 then
+        return
+      end
       process_complete()
     end
 
-    _finders.utils.scan_dir_async({
+    async_close = _finders.utils.scan_dir_async({
       path = opts.path,
       hidden = opts.hidden,
       respect_gitignore = opts.respect_gitignore,
@@ -64,6 +81,11 @@ _finders.cross_live_grep = function(opts)
 
   return setmetatable({
     close = function()
+      if async_close ~= nil then
+        async_state = 0
+        async_close()
+        async_close = nil
+      end
     end,
   }, {
     __call = callable

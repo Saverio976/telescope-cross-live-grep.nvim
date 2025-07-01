@@ -63,7 +63,12 @@ _utils.scan_dir_async = function(opts)
     _utils.has_scan = true
   end
 
+  local end_now = false
+
   local search_pattern = function(entry)
+    if end_now then
+      return false
+    end
     for _, exclude_patt in ipairs(opts.exclude) do
       local found = string.find(entry, exclude_patt)
       if found ~= nil then
@@ -74,11 +79,15 @@ _utils.scan_dir_async = function(opts)
   end
 
   local on_insert = function(entry)
-    opts.on_insert(entry)
+    if not end_now then
+      opts.on_insert(entry)
+    end
   end
 
   local on_exit = function(_)
-    opts.on_exit()
+    if not end_now then
+      opts.on_exit()
+    end
   end
 
   _utils.scan.scan_dir_async(opts.path, {
@@ -88,6 +97,12 @@ _utils.scan_dir_async = function(opts)
     search_pattern = search_pattern,
     on_exit = on_exit,
   })
+
+  local close = function()
+    end_now = true
+  end
+
+  return close
 end
 
 return _utils
