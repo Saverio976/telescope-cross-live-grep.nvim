@@ -18,6 +18,14 @@ _finders.cross_live_grep = function(opts)
   local callable = function(_, prompt, process_result, process_complete)
     if prompt == '' then
       process_complete()
+      return
+    end
+
+    local is_pattern_found = string.find(prompt, '/r/', 1, true)
+    local is_pattern = false
+    if is_pattern_found ~= nil and is_pattern_found[1] == 1 then
+      prompt = string.sub(prompt, is_pattern_found[2])
+      is_pattern = true
     end
 
     local display = function(entry)
@@ -25,24 +33,24 @@ _finders.cross_live_grep = function(opts)
     end
 
     local on_insert = function(entry)
-      local local_result = _finders.utils.grep_file(entry, prompt)
-      for _, cur_match in ipairs(local_result) do
+      local callback_found = function(src, lnum, start, end)
         process_result({
           display = display,
-          path = entry,
-          lnum = cur_match[2],
-          ordinal = entry,
-          start = cur_match[3],
-          finish = cur_match[4],
+          path = src,
+          lnum = lnum,
+          ordinal = src,
+          start = start,
+          finish = end,
         })
       end
+      _finders.utils.grep_file_async(entry, prompt, is_pattern, callback_found)
     end
 
     local on_exit = function()
       process_complete()
     end
 
-    _finders.utils.scan_dir({
+    _finders.utils.scan_dir_async({
       path = opts.path,
       hidden = opts.hidden,
       respect_gitignore = opts.respect_gitignore,

@@ -31,34 +31,28 @@ _utils.to_relative = function(src, cwd)
   return _utils.path:new(src):make_relative(cwd)
 end
 
-_utils.grep_file = function(src, pattern)
+-- @param src (string): path to file
+-- @param pattern (string): pattern to search
+-- @param is_pattern (bool): is it a plain string or lua pattern
+-- @param callback(src, lnum, start, end): callback when found
+_utils.grep_file_async = function(src, pattern, is_pattern, callback)
   if not _utils.has_path then
     _utils.path = require('plenary.path')
     _utils.has_path = true
   end
 
-  local lines_tmp = _utils.path:new(src):readlines()
-  local lines = {}
-  for i, v in ipairs(lines_tmp) do
-    table.insert(lines, {
-      str = v,
-      i = i
-    })
-  end
-  local found = vim.fn.matchfuzzypos(lines, pattern, {
-    key = 'str',
-    matchseq = true,
-    limit = 0,
-  })
-  local results = {}
-  for i = 1, #(found[1]) do
-    table.insert(results, {
-      -- path, line_number, column_number
-      src, found[1][i].i, found[2][i][1], found[2][i][2]
-    })
+  local _callback = function(data)
+    data = data:gsub("\r", "")
+    data = vim.split(data, "\n")
+    for i, v in ipairs(data_lst) do
+      local found = string.find(v, pattern, 1, is_pattern)
+      if found ~= nil then
+        callback(src, i, found[1], found[2])
+      end
+    end
   end
 
-  return results
+  _utils.path:new(src):read(_callback)
 end
 
 -- @param opts: options
@@ -68,7 +62,7 @@ end
 --   opts.exclude (list(str)):    exclude this patterns
 --   opts.on_insert(entry):  called when a file matches
 --   opts.on_exit():  called at the end
-_utils.scan_dir = function(opts)
+_utils.scan_dir_async = function(opts)
   if not _utils.has_scan then
     _utils.scan = require('plenary.scandir')
     _utils.has_scan = true
