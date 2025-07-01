@@ -48,6 +48,7 @@ _finders.cross_live_grep = function(opts)
       respect_gitignore = opts.respect_gitignore,
       exclude = opts.exclude,
       on_insert = on_insert,
+      on_exit = on_exit,
     })
   end
 
