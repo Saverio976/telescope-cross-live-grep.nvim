@@ -34,7 +34,7 @@ _pickers.cross_live_grep = function(opts)
     opts.hidden = true
   end
   if opts.exclude == nil then
-    opts.exclude = {[[\.git/]], [[__pycache__/]], [[node_modules/]], [[dist/]], [[\.gradle/]], [[\.idea/]], [[\.vscode/]], [[\.dll]]}
+    opts.exclude = {'%.git/', '__pycache__/', 'node_modules/', 'dist/', '%.gradle/', '%.idea/', '%.vscode/', '%.dll'}
   end
 
   local clg_finder = _pickers.finder(opts)

@@ -65,7 +65,8 @@ _utils.scan_dir_async = function(opts)
 
   local search_pattern = function(entry)
     for _, exclude_patt in ipairs(opts.exclude) do
-      if string.match(entry, exclude_patt) ~= nil then
+      local found = string.find(entry, exclude_patt)
+      if found ~= nil then
         return false
       end
     end

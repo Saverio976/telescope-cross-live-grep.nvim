@@ -4,7 +4,11 @@
 
 It might be less performant for a lit of files, but it works consitently on linux and windows.
 
-The grep vim command used is `vim.fn.matchfuzzypos`.
+The `grep` command used is `string.find` from lua.
+
+Documentation for pattern matching is: <https://www.lua.org/manual/5.3/manual.html#6.4.1>
+
+Pattern matching is used only when the prompt start with `/r/`
 
 ## Requirements
 
