@@ -41,7 +41,9 @@ _utils.grep_file = function(src, pattern, is_pattern, callback)
     _utils.has_path = true
   end
 
-  for i, v in _utils.path:new(src):iter() do
+  local i = 0
+  for v in _utils.path:new(src):iter() do
+    i = i + 1
     local start, finish = string.find(v, pattern, 1, is_pattern)
     if start ~= nil then
       callback(src, i, start, finish)
