@@ -34,14 +34,16 @@ _finders.cross_live_grep = function(opts)
 
     local on_insert = function(entry)
       local callback_found = function(src, lnum, start, finish)
-        process_result({
-          display = display,
-          path = src,
-          lnum = lnum,
-          ordinal = src,
-          start = start,
-          finish = finish,
-        })
+        vim.schedule(function()
+          process_result({
+            display = display,
+            path = src,
+            lnum = lnum,
+            ordinal = src,
+            start = start,
+            finish = finish,
+          })
+        end)
       end
       _finders.utils.grep_file(entry, prompt, is_pattern, callback_found)
     end
