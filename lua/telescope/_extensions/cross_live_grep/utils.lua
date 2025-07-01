@@ -75,9 +75,8 @@ _utils.scan_dir = function(opts)
   end
 
   local search_pattern = function(entry)
-    local _match = vim.schedule_wrap(vim.fn.match)
     for _, exclude_patt in ipairs(opts.exclude) do
-      if _match(entry, exclude_patt) ~= -1 then
+      if string.match(entry, exclude_patt) ~= nil then
         return false
       end
     end
