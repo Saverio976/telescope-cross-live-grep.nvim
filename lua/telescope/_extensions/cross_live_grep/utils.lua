@@ -35,24 +35,19 @@ end
 -- @param pattern (string): pattern to search
 -- @param is_pattern (bool): is it a plain string or lua pattern
 -- @param callback(src, lnum, start, end): callback when found
-_utils.grep_file_async = function(src, pattern, is_pattern, callback)
+_utils.grep_file = function(src, pattern, is_pattern, callback)
   if not _utils.has_path then
     _utils.path = require('plenary.path')
     _utils.has_path = true
   end
 
-  local _callback = function(data)
-    data = data:gsub("\r", "")
-    data = vim.split(data, "\n")
-    for i, v in ipairs(data_lst) do
-      local found = string.find(v, pattern, 1, is_pattern)
-      if found ~= nil then
-        callback(src, i, found[1], found[2])
-      end
+  local data = _utils.path:new(src):readlines()
+  for i, v in ipairs(data) do
+    local found = string.find(v, pattern, 1, is_pattern)
+    if found ~= nil then
+      callback(src, i, found[1], found[2])
     end
   end
-
-  _utils.path:new(src):read(_callback)
 end
 
 -- @param opts: options

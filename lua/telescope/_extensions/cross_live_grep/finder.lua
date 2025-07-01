@@ -43,7 +43,7 @@ _finders.cross_live_grep = function(opts)
           finish = finish,
         })
       end
-      _finders.utils.grep_file_async(entry, prompt, is_pattern, callback_found)
+      _finders.utils.grep_file(entry, prompt, is_pattern, callback_found)
     end
 
     local on_exit = function()
