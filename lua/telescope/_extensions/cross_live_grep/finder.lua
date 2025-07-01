@@ -33,14 +33,14 @@ _finders.cross_live_grep = function(opts)
     end
 
     local on_insert = function(entry)
-      local callback_found = function(src, lnum, start, end)
+      local callback_found = function(src, lnum, start, finish)
         process_result({
           display = display,
           path = src,
           lnum = lnum,
           ordinal = src,
           start = start,
-          finish = end,
+          finish = finish,
         })
       end
       _finders.utils.grep_file_async(entry, prompt, is_pattern, callback_found)
