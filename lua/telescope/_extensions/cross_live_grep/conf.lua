@@ -5,7 +5,7 @@ local get_values = function()
     respect_gitignore = true,
     hidden = true,
     exclude = {'%.git/', '__pycache__/', 'node_modules/', 'dist/', '%.gradle/', '%.idea/', '%.vscode/', '%.dll', '%.d'},
-    use_fastest = true,
+    use_fastest = false,
   }
   return values
 end

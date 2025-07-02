@@ -2,13 +2,15 @@
 
 `telescope-cross-live-grep.nvim` is a `live_grep` replacement that use only lua to discover files and grep them.
 
-It might be less performant for a lit of files, but it works consitently on linux and windows.
+You can specify an option to use the default telescope.live_grep if the vimgrep command exists. (see configuration)
 
-The `grep` command used is `string.find` from lua.
+It might be less performant for a lot of files / large files, but it works consitently on linux and windows.
+
+The '`grep`' command used is `string.find` from lua.
 
 Documentation for pattern matching is: <https://www.lua.org/manual/5.3/manual.html#6.4.1>
 
-Pattern matching is used only when the prompt start with `/r/`
+Pattern matching is used only when the prompt starts with `/r/`
 
 ## Requirements
 
@@ -41,6 +43,7 @@ require("telescope").setup({
     extensions = {
         cross_live_grep = {
             -- configuration options here
+            use_fastest = true, -- use telescope.live_grep if vimgrep command exists. It is usually faster
         },
     },
 })
