@@ -33,7 +33,18 @@ use {
 
 ## Setup and Configuration
 
+[Default configuration](./lua/telescope/_extensions/cross_live_grep/conf.lua)
+
 ```lua
+-- You don't need to configure the options if the defaults are ok for you
+require("telescope").setup({
+    extensions = {
+        cross_live_grep = {
+            -- configuration options here
+        },
+    },
+})
+
 require("telescope").load_extension('cross_live_grep')
 ```
 

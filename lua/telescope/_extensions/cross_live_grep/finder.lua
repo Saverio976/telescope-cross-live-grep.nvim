@@ -1,6 +1,4 @@
 local _finders = {
-  has_finder = false,
-  has_utils = false,
 }
 
 -- @param opts: options
@@ -10,9 +8,8 @@ local _finders = {
 --   opts.respect_gitignore (bool): if true, don't look in gitignored files
 --   opts.hidden (bool): if true, look in hidden files (starting with '.' in their filename)
 _finders.cross_live_grep = function(opts)
-  if not _finders.has_utils then
-    _finders.utils = require('telescope._extensions.cross_live_grep.utils')
-    _finders.has_utils = true
+  if not _finders.u == nil then
+    _finders.u = require('telescope._extensions.cross_live_grep.utils')
   end
 
   local async_state = 0
@@ -38,17 +35,11 @@ _finders.cross_live_grep = function(opts)
     end
 
     local on_insert = function(entry)
-      if async_state == 0 then
-        return
-      end
+      if async_state == 0 then return end
       local callback_found = function(src, lnum, start, finish)
-        if async_state == 0 then
-          return
-        end
+        if async_state == 0 then return end
         vim.schedule(function()
-          if async_state == 0 then
-            return
-          end
+          if async_state == 0 then return end
           process_result({
             display = display,
             path = src,
@@ -59,7 +50,7 @@ _finders.cross_live_grep = function(opts)
           })
         end)
       end
-      _finders.utils.grep_file(entry, prompt, is_pattern, callback_found)
+      _finders.u.grep_file(entry, prompt, is_pattern, callback_found)
     end
 
     local on_exit = function()
@@ -69,7 +60,7 @@ _finders.cross_live_grep = function(opts)
       process_complete()
     end
 
-    async_close = _finders.utils.scan_dir_async({
+    async_close = _finders.u.scan_dir_async({
       path = opts.path,
       hidden = opts.hidden,
       respect_gitignore = opts.respect_gitignore,
