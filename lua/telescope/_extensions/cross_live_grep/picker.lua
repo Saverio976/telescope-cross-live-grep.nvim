@@ -32,7 +32,7 @@ _pickers.cross_live_grep = function(opts)
     prompt_title = "Cross Live Grep",
     finder = clg_finder(opts),
     results_title = _pickers.u.to_relative(opts.path, opts.cwd),
-    previewer = _pickers.conf.qflist_previewer(opts),
+    previewer = telescope_conf.qflist_previewer(opts),
     attach_mappings = function(_, _)
       return true
     end,
