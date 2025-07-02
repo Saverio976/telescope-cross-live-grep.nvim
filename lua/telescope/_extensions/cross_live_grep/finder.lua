@@ -31,7 +31,7 @@ _finders.cross_live_grep = function(opts)
     end
 
     local display = function(entry)
-      return _finders.utils.to_relative(entry.path, opts.cwd) .. ':' .. entry.lnum
+      return _finders.u.to_relative(entry.path, opts.cwd) .. ':' .. entry.lnum
     end -- display
 
     local on_insert = function(entry)
