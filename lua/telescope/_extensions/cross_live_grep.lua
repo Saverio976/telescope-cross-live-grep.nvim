@@ -12,7 +12,7 @@ _ext.cross_live_grep = function(opts)
   opts = opts or {}
   opts = clg_utils.merge_default(_ext.opts, opts)
 
-  picker(opts)
+  clg_picker(opts)
 end
 
 return telescope.register_extension({
@@ -21,6 +21,6 @@ return telescope.register_extension({
   end,
   exports = {
     cross_live_grep = _ext.cross_live_grep,
-    _picker = picker
+    _picker = clg_picker
   },
 })
