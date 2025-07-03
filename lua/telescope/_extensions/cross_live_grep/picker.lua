@@ -21,7 +21,7 @@ _pickers.cross_live_grep = function(opts)
   opts = _pickers.u.merge_default(clg_conf(), opts)
   opts = _pickers.u.update_cwd_path(opts)
 
-  if opts.use_fastest and #telescope_conf.vimgrep_arguments >= 1 and vim.fn.executable(telescope_conf.vimgrep_arguments[1]) then
+  if opts.use_fastest and #telescope_conf.vimgrep_arguments >= 1 and vim.fn.executable(telescope_conf.vimgrep_arguments[1]) == 1 then
     local telescope_live_grep = _pickers.u.get_require(_pickers, 'telescope.builtin.__files').live_grep
     return telescope_live_grep({})
   end
